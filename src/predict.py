@@ -1,7 +1,8 @@
 import os
+import pickle
 import warnings
 
-import joblib
+import pandas as pd
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 weather_dir = os.path.dirname(base_dir)
@@ -10,30 +11,28 @@ model_dir = os.path.join(weather_dir, 'model')
 warnings.filterwarnings("ignore", message="X does not have valid feature names")
 
 def predict(outlook, temperature, humidity, windy):
-    # Load model và label encoders
-    clf = joblib.load(model_dir + '/decision_tree_model.joblib')
-    le_outlook = joblib.load(model_dir + '/le_outlook.joblib')
-    le_play = joblib.load(model_dir + '/le_play.joblib')
+    # Load model 
 
-    # Chuyển đổi input
-    input_data = [outlook, int(temperature), int(humidity), windy]
-    input_data[0] = le_outlook.transform([input_data[0]])[0]
-    input_data[3] = int(input_data[3])
-    input_data = [input_data]
+    model = pickle.load(open(model_dir + '/model.pkl', 'rb'))
+
+    #  input
+    input_data = pd.DataFrame({
+    'outlook': [outlook],
+    'temperature': [int(temperature)],
+    'humidity': [int(humidity)],
+    'windy': [windy]
+    })
 
     # Dự đoán
-    prediction = clf.predict(input_data)
+    prediction = model.predict(input_data)
 
-    # Chuyển đổi kết quả về dạng ban đầu
-    prediction = le_play.inverse_transform(prediction)
-    
     return prediction[0]
 
 # Ví dụ sử dụng hàm
 outlook = 'sunny'
-temperature = 60
+temperature = 85
 humidity = 90
-windy = False
+windy = True
 
 prediction = predict(outlook, temperature, humidity, windy)
 print(f"Dự đoán: {prediction}")

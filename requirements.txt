@@ -1,0 +1,3 @@
+pandas
+scikit-learn
+c45-decision-tree
