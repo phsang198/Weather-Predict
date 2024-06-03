@@ -1,3 +1,6 @@
+import os
+
+import joblib
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn import metrics
@@ -5,8 +8,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 
+# Xác định đường dẫn thư mục
+base_dir = os.path.dirname(os.path.abspath(__file__))
+weather_dir = os.path.dirname(base_dir)
+data_dir = os.path.join(weather_dir, 'data')
+model_dir = os.path.join(weather_dir, 'src')
+
 # Đọc dữ liệu từ tệp CSV
-data = pd.read_csv('weather.csv')
+data = pd.read_csv(data_dir +'/weather.csv')
 
 # Kiểm tra dữ liệu
 print(data.head())
@@ -30,6 +39,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 clf = DecisionTreeClassifier(criterion='entropy')  # C4.5 sử dụng entropy
 clf = clf.fit(X_train, y_train)
 
+joblib.dump(clf, model_dir + '/decision_tree_model.joblib')
+joblib.dump(le_outlook, model_dir + '/le_outlook.joblib')
+joblib.dump(le_play, model_dir + '/le_play.joblib')
 # Dự đoán trên tập kiểm tra
 y_pred = clf.predict(X_test)
 
