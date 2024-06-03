@@ -5,7 +5,7 @@ import joblib
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 weather_dir = os.path.dirname(base_dir)
-model_dir = os.path.join(weather_dir, 'src')
+model_dir = os.path.join(weather_dir, 'model')
 
 warnings.filterwarnings("ignore", message="X does not have valid feature names")
 

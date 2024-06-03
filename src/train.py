@@ -12,7 +12,7 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 base_dir = os.path.dirname(os.path.abspath(__file__))
 weather_dir = os.path.dirname(base_dir)
 data_dir = os.path.join(weather_dir, 'data')
-model_dir = os.path.join(weather_dir, 'src')
+model_dir = os.path.join(weather_dir, 'model')
 
 # Đọc dữ liệu từ tệp CSV
 data = pd.read_csv(data_dir +'/weather.csv')
